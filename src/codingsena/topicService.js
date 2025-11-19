@@ -48,7 +48,7 @@ export class TopicService {
 
     async deleteTopic(topicId, courseId) {
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/topics/${topicId}/batches/${courseId}/remove`,
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/topics/${topicId}/batches/${courseId}/remove`, {},
                 { withCredentials: true }
             );
             return response.data;

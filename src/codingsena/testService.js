@@ -171,7 +171,7 @@ class TestService {
 
     async deleteTest(testId) {
         try {
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/tests/${testId}/soft-delete`, {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/tests/${testId}/soft-delete`,{}, {
                 withCredentials: true,
             })
             return response.data;

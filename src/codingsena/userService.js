@@ -78,7 +78,7 @@ export class UserService {
 
     async deactivateAccount() {
         try {
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/users/de-activate`, {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/users/de-activate`, {}, {
                 withCredentials: true
             })
             return response.data;

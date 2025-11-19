@@ -77,6 +77,7 @@ function ManageCourse() {
           }}
           courseDuration={getCourseDuration(course.startDate, course.endDate)}
           currentEnrollments={course.noOfStudentsEnrolled}
+          isUserTrainer={true}
         />
       ))}
     </div>

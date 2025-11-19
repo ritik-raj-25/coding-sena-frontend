@@ -37,7 +37,11 @@ function DashboardSidebar() {
             link: "admin/user-management",
             isActive: roles.includes("ROLE_ADMIN"),
         },
-        
+        {
+            name: "Course Management",
+            link: "admin/course-management",
+            isActive: roles.includes("ROLE_ADMIN"),
+        },
         {
             name: "More Options",
             link: "admin/more-options",

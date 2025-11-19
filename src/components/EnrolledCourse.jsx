@@ -72,6 +72,7 @@ export default function EnrolledCourse() {
             onClick={() => {navigate(`/my-courses/${course.id}/topics`)}}
             courseDuration={getCourseDuration(course.startDate, course.endDate)}
             currentEnrollments={course.noOfStudentsEnrolled}
+            isEnrolled={true}
           />
         ))
       }

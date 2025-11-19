@@ -11,6 +11,8 @@ function CourseCard({
   currentEnrollments,
   onClick,
   isUserAdmin,
+  isEnrolled = false,
+  isUserTrainer = false,
 }) {
 
   return (
@@ -55,14 +57,19 @@ function CourseCard({
               {currentEnrollments} Enrolled
             </p>
           </div>
-          {isUserAdmin ? (
+          {(isUserAdmin || isUserTrainer) ? (
             <Button 
               onClick={onClick}
               className="w-full mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer"
             >
               Manage Course
             </Button>
-          ) : (
+          ) : ( isEnrolled ? (<Button
+              className="w-full mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer"
+              onClick={onClick}
+            >
+              Start Learning
+            </Button>) :
             <Button
               className="w-full mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all duration-200 cursor-pointer"
               onClick={onClick}

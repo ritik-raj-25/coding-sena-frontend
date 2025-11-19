@@ -55,7 +55,7 @@ function DeactivateAccount() {
                 To confirm that you wish to pause your learning progress and deactivate your account, please click the button below.
             </p>
 
-            <div className="pt-4">
+            <div className="pt-4 flex justify-end">
                 <Button 
                     onClick={handleClick}
                     className="bg-red-500 hover:bg-red-600 font-semibold focus:ring-4 focus:ring-red-500/50"
