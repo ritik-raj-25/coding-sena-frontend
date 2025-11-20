@@ -73,6 +73,58 @@ function Login() {
             </p>
           </div>
         )}
+        
+        {/* Demo Credentials */}
+        <div className="mt-1 p-4 bg-gray-100 rounded-lg border border-gray-300">
+          <p className="font-semibold text-gray-800 mb-2 text-sm">Demo Credentials</p>
+
+          <div className="text-xs text-gray-700 space-y-1">
+            <p><strong>Admin:</strong> rajritik2511@gmail.com / Admin@123</p>
+            <p><strong>Trainer:</strong> ritikbunty2511@gmail.com / Trainer@123</p>
+            <p><strong>Learner:</strong> ritik.raj2024@vitstudent.ac.in / Learner@123</p>
+          </div>
+
+          <div className="flex gap-2 mt-3">
+            <Button
+              type="button"
+              onClick={() => {
+                document.querySelector("input[name='email']").value = "rajritik2511@gmail.com";
+                document.querySelector("input[name='password']").value = "Admin@123";
+              }}
+              bgColor="bg-indigo-600"
+              textColor="text-white"
+              className="px-3 py-1 text-xs rounded hover:bg-indigo-700 cursor-pointer"
+            >
+              Admin Demo
+            </Button>
+
+            <Button
+              type="button"
+              onClick={() => {
+                document.querySelector("input[name='email']").value = "ritikbunty2511@gmail.com";
+                document.querySelector("input[name='password']").value = "Trainer@123";
+              }}
+              bgColor="bg-green-600"
+              textColor="text-white"
+              className="px-3 py-1 text-xs rounded hover:bg-green-700 cursor-pointer"
+            >
+              Trainer Demo
+            </Button>
+
+            <Button
+              type="button"
+              onClick={() => {
+                document.querySelector("input[name='email']").value = "ritik.raj2024@vitstudent.ac.in";
+                document.querySelector("input[name='password']").value = "Learner@123";
+              }}
+              bgColor="bg-yellow-600"
+              textColor="text-white"
+              className="px-3 py-1 text-xs rounded hover:bg-yellow-700 cursor-pointer"
+            >
+              Learner Demo
+            </Button>
+          </div>
+        </div>
 
         <form onSubmit={handleSubmit(loginUser)} className="space-y-5">
           <Input

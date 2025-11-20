@@ -208,7 +208,19 @@ function Enrollment() {
                 </div>
               </div>
             </div>
-
+            {/* Stripe Demo Card Info */}
+            {!isUserAdmin && (
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
+                <p className="text-sm font-semibold text-blue-800 mb-2">
+                  Stripe Demo Payment Details
+                </p>
+                <ul className="text-xs text-blue-700 space-y-1">
+                  <li><strong>Card Number:</strong> 4242 4242 4242 4242</li>
+                  <li><strong>Expiry:</strong> Any future date (e.g. 12/34)</li>
+                  <li><strong>CVC:</strong> Any 3 digits (e.g. 123)</li>
+                </ul>
+              </div>
+            )}
             {!isUserAdmin && <Button
               className="text-xl font-bold bg-green-500 hover:bg-green-600 text-white transition duration-200 uppercase tracking-wider shadow-lg mt-6 cursor-pointer"
               onClick={handleBuyNow}
