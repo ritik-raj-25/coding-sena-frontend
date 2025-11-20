@@ -7,6 +7,7 @@ import Button from "./fields/Button";
 import enrollmentService from "../codingsena/enrollmentService";
 import DetailBox from "./DetailBox";
 import { FiCalendar, FiClock, FiDownload, FiUnlock } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 function Enrollment() {
   const { courseId } = useParams();
@@ -21,6 +22,11 @@ function Enrollment() {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+
+  
+  const authSlice = useSelector((state) => state.authSlice);
+  const userRoles = authSlice.userData?.roles?.map(role => role.roleName) || [];
+  const isUserAdmin = userRoles.includes("ROLE_ADMIN");
 
   const handleBuyNow = async () => {
     try {
@@ -166,7 +172,7 @@ function Enrollment() {
           <div className="lg:col-span-1 bg-white border border-gray-100 rounded-lg shadow-xl p-6 space-y-5 h-full flex flex-col justify-between">
             <div>
               <h3 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
-                Secure Your Spot
+                {isUserAdmin ? 'Price Details' : 'Secure Your Spot'}
               </h3>
 
               <div className="space-y-3">
@@ -203,12 +209,12 @@ function Enrollment() {
               </div>
             </div>
 
-            <Button
+            {!isUserAdmin && <Button
               className="text-xl font-bold bg-green-500 hover:bg-green-600 text-white transition duration-200 uppercase tracking-wider shadow-lg mt-6 cursor-pointer"
               onClick={handleBuyNow}
             >
               Enroll Now & Get Instant Access
-            </Button>
+            </Button>}
           </div>
         </div>
       </div>

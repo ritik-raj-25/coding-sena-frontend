@@ -56,6 +56,37 @@ export class EnrollmentService {
             throw { message: 'Network error, please try again after some time.' };
         }
     }
+
+    async assignTrainerToBatch(batchId, userEmail) {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/enrollments/trainers`,
+                { userEmail, batchId },
+                {
+                    withCredentials: true,
+                }
+            );
+            return response.data;
+        } catch (error) {
+            if (error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
+
+    async removeTrainerFromBatch(batchId, userEmail) {
+        try {
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/enrollments/trainers`, {userEmail, batchId}, {
+                withCredentials: true,
+            });
+            return response.data;
+        } catch (error) {
+            if (error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
 }
 
 const enrollmentService = new EnrollmentService();

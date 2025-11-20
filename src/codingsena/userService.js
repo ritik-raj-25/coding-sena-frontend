@@ -133,6 +133,62 @@ export class UserService {
             throw { message: 'Network error, please try again after some time.' };
         }
     }
+
+    async promoteUserToTrainer(email) {
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/promote-user`, { email }, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            if(error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
+
+    async demoteTrainerToLearner(email) {
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/demote-user`, { email }, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            if(error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
+
+    async blockUser(email) {
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/block-user`, { email }, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            if(error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
+
+    async unblockUser(email) {
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/unblock-user`, { email }, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            if(error.response && error.response.data) {
+                throw error.response.data;
+            }
+            throw { message: 'Network error, please try again after some time.' };
+        }
+    }
 }
 
 const userService = new UserService();

@@ -13,18 +13,19 @@ function CourseCard({
   isUserAdmin,
   isEnrolled = false,
   isUserTrainer = false,
+  isActive = true,
 }) {
 
   return (
     <div
       onClick={onClick}
-      className="
-            max-w-[400px] w-full h-[480px] 
-            bg-white 
+      className={`
+            max-w-[300px] w-full h-[480px] 
+            ${isActive ? 'bg-white' : 'bg-gray-100'}
             rounded-xl overflow-hidden
             shadow-md hover:shadow-xl transition-shadow duration-300
             cursor-pointer
-        "
+        `}
     >
       <div className="p-3 w-full h-full flex flex-col justify-between">
         <div className="w-full h-[294px] flex-shrink-0 overflow-hidden rounded-sm">

@@ -31,6 +31,11 @@ import TestAttemptDetail from './pages/TestAttemptDetail.jsx'
 import RealTimeTest from './pages/RealTimeTest.jsx'
 import ManageCourse from './pages/ManageCourse.jsx'
 import Error from './pages/Error.jsx'
+import CourseManagement from './pages/CourseManagement.jsx'
+import AddCourse from './pages/AddCourse.jsx'
+import MoreOption from './pages/MoreOption.jsx'
+import AddSkill from './pages/AddSkill.jsx'
+import UserManagementComponent from './components/UserManagement.jsx'
 
 
 const router = createBrowserRouter([
@@ -101,6 +106,26 @@ const router = createBrowserRouter([
           {
             path: "manage-courses",
             element: <Protected authentication={true}><ManageCourse /></Protected>
+          },
+          {
+            path: "admin/course-management",
+            element: <Protected authentication={true}><CourseManagement /></Protected>
+          },
+          {
+            path: "admin/add-course",
+            element: <Protected authentication={true}><AddCourse /></Protected>
+          },
+          {
+            path: "admin/more-options",
+            element: <Protected authentication={true}><MoreOption /></Protected>
+          },
+          {
+            path: "admin/create-skill",
+            element: <Protected authentication={true}><AddSkill /></Protected>
+          },
+          {
+            path: "admin/user-management",
+            element: <Protected authentication={true}><UserManagementComponent /></Protected>
           }
         ]
       },

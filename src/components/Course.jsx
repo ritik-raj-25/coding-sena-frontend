@@ -40,8 +40,14 @@ function Course() {
 
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["courses", courseFilter, sortDir, pageNumber],
-    queryFn: () =>
-      courseService.getAllActiveCourses(pageNumber, 4, courseFilter, sortDir),
+    queryFn: () => {
+      if(isUserAdmin) {
+        return courseService.getAllCoursesForAdmin(pageNumber, 4, courseFilter, sortDir);
+      }
+      else {
+        return courseService.getAllActiveCourses(pageNumber, 4, courseFilter, sortDir);
+      }
+    },
       staleTime: 1000 * 60 * 5,          // cache is "fresh" for 5 minutes
       cacheTime: 1000 * 60 * 10,         // stays in memory for 10 mins after unmount
       refetchOnWindowFocus: false,       // doesn't refetch when you switch tabs
@@ -57,8 +63,14 @@ function Course() {
     if(!data?.resource?.isLastPage) {
       queryClient.prefetchQuery({
         queryKey: ["courses", courseFilter, sortDir, pageNumber + 1],
-        queryFn: () =>
-          courseService.getAllActiveCourses(pageNumber + 1, 4, courseFilter, sortDir),
+        queryFn: () => {
+          if(isUserAdmin) {
+            return courseService.getAllCoursesForAdmin(pageNumber + 1, 4, courseFilter, sortDir);
+          }
+          else {
+            return courseService.getAllActiveCourses(pageNumber + 1, 4, courseFilter, sortDir);
+          }
+        }       
       });
     }
   }, [data, pageNumber, courseFilter, sortDir, queryClient]);
@@ -157,13 +169,14 @@ function Course() {
               key={course.id}
               courseCoverImage={course.coverPicUrl}
               courseTitle={course.batchName}
-              onClick={() => navigate(`${isUserAdmin ? `/my-courses/${course.id}/topics` : `/courses/${course.id}`}`)}
+              onClick={() => navigate(`${isUserAdmin ? `/my-courses/${course.id}/topics` : `/courses/${course.id}`}`, {state: ({course: course})})}
               courseDuration={getCourseDuration(
                 course.startDate,
                 course.endDate
               )}
               currentEnrollments={course.noOfStudentsEnrolled}
               isUserAdmin={isUserAdmin}
+              isActive={course.isActive}
             />
           ))
         )}

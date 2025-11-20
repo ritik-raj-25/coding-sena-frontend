@@ -18,6 +18,11 @@ import UpdateTopicForm from "./UpdateTopicFrom";
 import AddMaterialForm from "./AddMaterialForm";
 import UpdateMaterialForm from "./UpdateMaterialForm";
 import TestModel from "./TestModel"; // will be uses as normal modal
+import {FaUserGraduate, FaMinusCircle, FaTrashRestore } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import courseService from "../codingsena/courseService";
+import UpdateCourseModel from "./UpdateCourseModel";
+import EmailRequestModel from "./EmailRequestModel";
 
 function Topic() {
   const { courseId } = useParams();
@@ -37,9 +42,134 @@ function Topic() {
   const [deleteMaterialId, setDeleteMaterialId] = useState(null);
   const [deleteMaterialIdTopicId, setDeleteMaterialIdTopicId] = useState(null);
   const [editTopicNameModalOpen, setEditTopicNameModalOpen] = useState(false);
+  const [deleteCourseModalOpen, setDeleteCourseModalOpen] = useState(false);
+  const [updateCourseModalOpen, setUpdateCourseModalOpen] = useState(false);
+  const [assignTrainerModalOpen, setAssignTrainerModalOpen] = useState(false);
+  const [removeTrainerModalOpen, setRemoveTrainerModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const course = location.state?.course || {};
+  const isActive = course.isActive;
+
+  const handleDeleteCourse = () => {
+    setDeleteCourseModalOpen(true);
+  };
+
+  const handleConfirmDeleteCourse = async () => {
+    setDeleteCourseModalOpen(false);
+    try {
+      const response = await courseService.deleteCourse(courseId);
+      if (response?.success) {
+        toast.success(response?.message || "Course deleted successfully.");
+        navigate('/courses');
+      } 
+      else {
+        toast.error(response?.message || "Failed to delete course.");
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to delete course.");
+    }
+  }
+
+  const handleRestoreCourse = async () => {
+    try {
+      const response = await courseService.restoreCourse(courseId);
+      if (response?.success) {
+        toast.success(response?.message || "Course restored successfully.");
+        navigate("/courses");
+      } 
+      else {
+        toast.error(response?.message || "Failed to restore course.");
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to restore course.");
+    }
+  }
+
+  const handleUpdateCourse = () => {
+    setUpdateCourseModalOpen(true);
+  };
+
+  const handleAssignTrainer = () => {
+    setAssignTrainerModalOpen(true);
+  }
+
+  const handleRemoveTrainer = () => {
+    setRemoveTrainerModalOpen(true);
+  }
+
+  const handleAssignTrainerSubmit = async (data, reset) => {
+    try {
+      const response = await enrollmentService.assignTrainerToBatch(courseId, data.userEmail);
+      if (response?.success) {
+        toast.success(response?.message || "Trainer assigned successfully.");
+        setAssignTrainerModalOpen(false);
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to assign trainer.");
+    }
+  };
+
+  const handleRemoveTrainerSubmit = async (data, reset) => {
+    try {
+      const response = await enrollmentService.removeTrainerFromBatch(courseId, data.userEmail);
+      if (response?.success) {
+        toast.success(response?.message || "Trainer removed successfully.");
+        setRemoveTrainerModalOpen(false);
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to remove trainer.");
+    }
+  };
+
+  const baseCardStyle =
+    "cursor-pointer block h-full p-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1";
+
+  const managementActions = [
+    {
+      label: "Edit Course",
+      icon: FaEdit,
+      onClick: handleUpdateCourse,
+      isVisible: true,
+      style:
+        "bg-white text-indigo-700 shadow-lg shadow-gray-200/50 border-2 border-indigo-200 hover:border-indigo-400",
+    },
+    {
+      label: "Delete Course",
+      icon: FaTrash,
+      onClick: handleDeleteCourse,
+      isVisible: isActive,
+      style: "bg-red-500 text-white shadow-red-300/50 hover:bg-red-600",
+    },
+    {
+      label: "Restore Course",
+      icon: FaTrashRestore,
+      onClick: handleRestoreCourse,
+      isVisible: !isActive,
+      style:
+        "bg-white text-indigo-700 shadow-lg shadow-gray-200/50 border-2 border-indigo-200 hover:border-indigo-400",
+    },
+    {
+      label: "Assign Trainer",
+      icon: FaUserGraduate,
+      onClick: handleAssignTrainer,
+      isVisible: true,
+      style:
+        "bg-white text-indigo-700 shadow-lg shadow-gray-200/50 border-2 border-indigo-200 hover:border-indigo-400",
+    },
+    {
+      label: "Remove Trainer",
+      icon: FaMinusCircle,
+      onClick: handleRemoveTrainer,
+      isVisible: true,
+      style:
+        "bg-white text-indigo-700 shadow-lg shadow-gray-200/50 border-2 border-indigo-200 hover:border-indigo-400",
+    },
+  ];
 
   const authSlice = useSelector((state) => state.authSlice);
   let roles = authSlice.userData?.roles?.map(role => role.roleName) || [];
@@ -178,6 +308,37 @@ function Topic() {
 
   return (
     <>
+    <EmailRequestModel
+      isOpen={assignTrainerModalOpen}
+      onClose={() => setAssignTrainerModalOpen(false)}
+      title={"Assign Trainer to Course"}
+      onSubmit={handleAssignTrainerSubmit}
+      label="Trainer Email"
+    />
+    <EmailRequestModel
+      isOpen={removeTrainerModalOpen}
+      onClose={() => setRemoveTrainerModalOpen(false)}
+      title={"Remove Trainer from Course"}
+      onSubmit={handleRemoveTrainerSubmit}
+      label="Trainer Email"
+    />
+    <UpdateCourseModel
+      isOpen={updateCourseModalOpen}
+      onClose={() => setUpdateCourseModalOpen(false)}
+      onSuccess={() => navigate(`/courses/${courseId}`)}
+      courseData={course}
+    />
+    <TestModel
+      isOpen={deleteCourseModalOpen}
+      onClose={() => setDeleteCourseModalOpen(false)}
+      title={"Delete Course Confirmation"}
+      onConfirm={handleConfirmDeleteCourse}
+    >
+      <p>Are you sure you want to delete this course?</p>
+      <ul className="list-disc list-inside mt-4 text-sm text-yellow-800 bg-yellow-50 p-3 rounded-md">
+        <li>This is a temporary deletion.</li>
+      </ul>
+    </TestModel>
     <TestModel
       isOpen={isDeleteTopicModalOpen}
       onClose={() => setIsDeleteTopicModalOpen(false)}
@@ -229,6 +390,44 @@ function Topic() {
           <IoArrowBack className="h-5 w-5 mr-1.5" />
           Back
         </Button>
+
+        {/* Admin only Section */}
+        {
+          roles.includes("ROLE_ADMIN") && (
+            <div className="mb-10">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 border-b pb-3">
+                Course Management
+              </h1>
+        
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center gap-6 mb-10">
+                {managementActions.map((action) => {
+                  const IconComponent = action.icon;
+        
+                  return (
+                    action.isVisible && (
+                      <div key={action.label} className="col-span-1">
+                        <div
+                          onClick={action.onClick}
+                          className={`
+                            text-left focus:ring-4 focus:ring-indigo-300 focus:outline-none 
+                            ${baseCardStyle}
+                            ${action.style}
+                          `}
+                        >
+                          <div className="flex items-center justify-start font-bold text-lg whitespace-nowrap">
+                            <IconComponent className="mr-3 text-2xl" />
+                            {action.label}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  );
+                })}
+              </div>
+            </div>
+          )
+        }
+
         <div className="mb-6 border-b pb-4 flex justify-between items-center">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
             Course Topics
