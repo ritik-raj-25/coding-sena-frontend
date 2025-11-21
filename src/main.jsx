@@ -36,6 +36,7 @@ import AddCourse from './pages/AddCourse.jsx'
 import MoreOption from './pages/MoreOption.jsx'
 import AddSkill from './pages/AddSkill.jsx'
 import UserManagementComponent from './components/UserManagement.jsx'
+import { ToastContainer } from 'react-toastify';
 
 
 const router = createBrowserRouter([
@@ -164,7 +165,10 @@ createRoot(document.getElementById('root')).render(
     <Provider store={store }>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <>
+            <RouterProvider router={router} />
+            <ToastContainer />
+          </>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

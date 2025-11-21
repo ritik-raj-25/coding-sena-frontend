@@ -154,7 +154,6 @@ function TestDetail() {
 
   const viewTestReport = async () => {
     try {
-      setIsReportModalOpen(true);
       const response = await testService.getTestReport(testId);
       if(response.success) {
         if(response.resource.length === 0) {
@@ -162,6 +161,7 @@ function TestDetail() {
           setIsReportModalOpen(false);
           return;
         }
+        setIsReportModalOpen(true);
         setReportData(response.resource);    
       }
       else {

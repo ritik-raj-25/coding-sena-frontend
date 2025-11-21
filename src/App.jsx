@@ -2,7 +2,6 @@ import './App.css'
 import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import Footer from './components/Footer'
-import { ToastContainer} from 'react-toastify';
 import { useState, useEffect } from 'react';
 import authService from './codingsena/authService';
 import { useDispatch } from 'react-redux';
@@ -45,7 +44,6 @@ function App() {
       <Header />
       <main>
         <Outlet/>
-        <ToastContainer/>
       </main>
       <Footer />
     </>

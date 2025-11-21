@@ -5,7 +5,7 @@ import defaultProfilePic from "../assets/default_profile_image.png";
 import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../store/authSlice";
 import authService from "../codingsena/authService";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Button from "./fields/Button";
 import { FaBars, FaTimes } from 'react-icons/fa'; 
 
@@ -136,7 +136,6 @@ function DashboardLayout() {
           </Button>
         </div>
       </div>
-      <ToastContainer/>
     </div>
   );
 }
