@@ -7,6 +7,7 @@ import {useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import DropDown from './fields/DropDown';
+import { QueryClient } from "@tanstack/react-query";
 
 const BatchValidityOptions = [
   { value: "SIX_MONTHS", label: "Six Months" },
@@ -39,6 +40,8 @@ function AddAndUpdateCourse({
   const [coverPicPreview, setCoverPicPreview] = useState(courseData?.coverPicUrl);
   const [curriculumPreview, setCurriculumPreview] = useState(courseData?.curriculumUrl);
 
+  const queryClient = new QueryClient();
+
   const handleCoverPicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -64,6 +67,7 @@ function AddAndUpdateCourse({
     onSuccess: (response) => {
         if(response?.success) {
             setSuccess(response.message || "Course added successfully!");
+            queryClient.invalidateQueries(["courses", courseFilter, sortDir, pageNumber]);
             navigate(`/courses/${response.resource.id}`);
             toast.success(response.message || "Course added successfully!");
             reset();
@@ -91,6 +95,7 @@ function AddAndUpdateCourse({
         if(response?.success) {
             setSuccess(response.message || "Course updated successfully!");
             reset();
+            queryClient.invalidateQueries(["courses", courseFilter, sortDir, pageNumber]);
             onSuccess();
             toast.success(response.message || "Course updated successfully!");
         }
