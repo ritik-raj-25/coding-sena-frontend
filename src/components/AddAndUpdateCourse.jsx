@@ -67,7 +67,7 @@ function AddAndUpdateCourse({
     onSuccess: (response) => {
         if(response?.success) {
             setSuccess(response.message || "Course added successfully!");
-            queryClient.invalidateQueries(["courses", courseFilter, sortDir, pageNumber]);
+            queryClient.invalidateQueries(["courses"]);
             navigate(`/courses/${response.resource.id}`);
             toast.success(response.message || "Course added successfully!");
             reset();
@@ -95,7 +95,7 @@ function AddAndUpdateCourse({
         if(response?.success) {
             setSuccess(response.message || "Course updated successfully!");
             reset();
-            queryClient.invalidateQueries(["courses", courseFilter, sortDir, pageNumber]);
+            queryClient.invalidateQueries(["courses"]);
             onSuccess();
             toast.success(response.message || "Course updated successfully!");
         }
