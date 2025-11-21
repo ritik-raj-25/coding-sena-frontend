@@ -128,12 +128,22 @@ function Enrollment() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
               <DetailBox
                 title="Start Date"
-                value={new Date(course?.startDate).toLocaleDateString()}
+                value={new Date(course?.startDate).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour12: true,
+                })}
                 icon={<FiCalendar className="h-5 w-5" />}
               />
               <DetailBox
                 title="End Date"
-                value={new Date(course?.endDate).toLocaleDateString()}
+                value={new Date(course?.endDate).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour12: true,
+                })}
                 icon={<FiCalendar className="h-5 w-5" />}
               />
               <DetailBox
