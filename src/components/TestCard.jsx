@@ -20,6 +20,17 @@ function TestCard({
   onEdit,
   onDelete,
 }) {
+
+  function parseLocalDateTime(dateString) {
+    if (!dateString) return null;
+
+    const [date, time] = dateString.split("T");
+    const [year, month, day] = date.split("-").map(Number);
+    const [hour, minute, second] = time.split(":").map(Number);
+
+    return new Date(year, month - 1, day, hour, minute, second);
+  }
+
   return (
     <div
       className={`${
@@ -79,7 +90,7 @@ function TestCard({
         <div className="border-t border-gray-100 pt-4">
           <p className="text-xs text-gray-500 mb-1">
             <strong>Starts:</strong>{" "}
-            {new Date(startTime).toLocaleString("en-GB", {
+            {parseLocalDateTime(startTime).toLocaleString("en-GB", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
@@ -90,7 +101,7 @@ function TestCard({
           </p>
           <p className="text-xs text-gray-500">
             <strong>Ends:</strong>{" "}
-            {new Date(endTime).toLocaleString("en-GB", {
+            {parseLocalDateTime(endTime).toLocaleString("en-GB", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",

@@ -108,9 +108,19 @@ function TestDetail() {
     })();
   }, [courseId, roles]);
 
+  function parseLocalDateTime(dateString) {
+    if (!dateString) return null;
+
+    const [date, time] = dateString.split("T");
+    const [year, month, day] = date.split("-").map(Number);
+    const [hour, minute, second] = time.split(":").map(Number);
+
+    return new Date(year, month - 1, day, hour, minute, second);
+  }
+
   const now = new Date();
-  const startTime = new Date(testData?.resource?.startTime);
-  const endTime = new Date(testData?.resource?.endTime);
+  const startTime = parseLocalDateTime(testData?.resource?.startTime);
+  const endTime = parseLocalDateTime(testData?.resource?.endTime);
   const isTestActive = now >= startTime && now <= endTime;
 
   const isStartDisabled =
@@ -444,7 +454,7 @@ function TestDetail() {
                     </p>
                     <p className="text-xs text-gray-500 mt-2">
                       Submitted:{" "}
-                      {new Date(attempt.submittedAt).toLocaleString("en-GB", {
+                      {parseLocalDateTime(attempt.submittedAt).toLocaleString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
