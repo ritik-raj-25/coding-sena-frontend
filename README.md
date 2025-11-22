@@ -48,9 +48,7 @@ Modern, scalable, and fully responsive frontend powering Coding Sena. Includes d
 ### 10. AI Recommendation UI
 ![Test Result UI](./assets/test-result-page-cs.png)
 
-```
 Note: Please explore website [here](https://codingsena.tech/) for more features (Trainer/Admin dashboards, etc.) and hands-on experience.
-```
 ---
 
 # 🚀 Tech Stack
